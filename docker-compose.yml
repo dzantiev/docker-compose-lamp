@@ -27,20 +27,3 @@ services:
       - ${MYSQL_LOG_DIR-./logs/mysql}:/var/log/mysql
     environment:
       MYSQL_ROOT_PASSWORD: tiger
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: 'sc-phpmyadmin'
-    links:
-      - mysql
-    environment:
-      PMA_HOST: mysql
-      PMA_PORT: 3306
-    ports:
-      - '8080:80'
-    volumes: 
-      - /sessions
-  redis:
-    container_name: 'sc-redis'
-    image: redis:latest
-    ports:
-      - "6379:6379"

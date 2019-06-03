@@ -29,9 +29,18 @@ RUN pecl install xdebug-2.5.5 \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd \
-    && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-install -j$(nproc) gd
+
+#Phalcon
+    WORKDIR /usr/local/src
+    RUN git clone https://github.com/phalcon/cphalcon.git --branch v3.4.0 --single-branch
+    WORKDIR /usr/local/src/cphalcon/build
+    RUN ./install
+
+    WORKDIR /etc/php7/mods-available
+    RUN echo 'extension=phalcon.so' >> phalcon.ini
+    RUN docker-php-ext-enable phalcon
+    WORKDIR /var/www/html
 
 # Enable apache modules
 RUN a2enmod rewrite headers
