@@ -26,6 +26,7 @@ RUN pecl install xdebug-2.5.5 \
     && docker-php-ext-install tokenizer \
     && docker-php-ext-install json \
     && docker-php-ext-install zip \
+    && docker-php-ext-install exif \
     && docker-php-ext-install -j$(nproc) intl \
     && docker-php-ext-install mbstring \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
