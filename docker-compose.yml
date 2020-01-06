@@ -2,16 +2,16 @@ version: "3"
 
 services:
   webserver:
-    build: 
+    build:
       context: ./bin/webserver
-    container_name: '7.1.x-webserver'
+    container_name: 'webserver'
     restart: 'always'
     ports:
       - "80:80"
       - "443:443"
-    links: 
+    links:
       - mysql
-    volumes: 
+    volumes:
       - ${DOCUMENT_ROOT-./www}:/var/www/html
       - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
       - ${PHP_INI-./config/hosts}:/etc/hosts
@@ -24,7 +24,7 @@ services:
     restart: 'always'
     ports:
       - "3306:3306"
-    volumes: 
+    volumes:
       - ${MYSQL_DATA_DIR-./data/mysql}:/var/lib/mysql
       - ${MYSQL_LOG_DIR-./logs/mysql}:/var/log/mysql
     environment:
