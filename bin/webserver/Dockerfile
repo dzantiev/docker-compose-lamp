@@ -26,6 +26,11 @@ RUN docker-php-ext-install json
 RUN docker-php-ext-install exif
 RUN docker-php-ext-install -j$(nproc) intl
 
+# GD
+RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
+
+RUN docker-php-ext-install gd
+
 #Phalcon
     RUN wget --content-disposition --output-document /tmp/phalcon.deb https://packagecloud.io/phalcon/stable/packages/debian/stretch/php7.4-phalcon_4.0.0-861+php7.4_amd64.deb/download.deb \
         && mkdir /tmp/pkg \
