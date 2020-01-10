@@ -1,22 +1,29 @@
 version: "3"
 
 services:
-  webserver:
-    build: 
-      context: ./bin/webserver
-    container_name: '7.1.x-webserver'
-    restart: 'always'
+  nginx:
+    image: nginx:latest
+    container_name: nginx
     ports:
       - "80:80"
       - "443:443"
-    links: 
-      - mysql
-    volumes: 
-      - ${DOCUMENT_ROOT-./www}:/var/www/html
-      - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
+    volumes:
+      - ${DOCUMENT_ROOT-./www}:/var/www/
       - ${PHP_INI-./config/hosts}:/etc/hosts
-      - ${VHOSTS_DIR-./config/vhosts}:/etc/apache2/sites-enabled
-      - ${LOG_DIR-./logs/apache2}:/var/log/apache2
+      - ${LOG_DIR-./logs/nginx}:/var/log/nginx/
+      - ${VHOSTS_DIR-./config/vhosts}:/etc/nginx/conf.d/
+    links:
+        - webserver
+  webserver:
+    build: ./bin/webserver/
+    container_name: webserver
+    volumes:
+      - ${DOCUMENT_ROOT-./www}:/var/www/
+      - ${PHP_INI-./config/php/php.ini}:/usr/local/etc/php/php.ini
+    links:
+      - mysql
+    ports:
+      - "9000:9000"
   mysql:
     build: ./bin/mysql
     container_name: '5.7-mysql'
@@ -24,7 +31,7 @@ services:
     restart: 'always'
     ports:
       - "3306:3306"
-    volumes: 
+    volumes:
       - ${MYSQL_DATA_DIR-./data/mysql}:/var/lib/mysql
       - ${MYSQL_LOG_DIR-./logs/mysql}:/var/log/mysql
     environment:

@@ -1,7 +1,11 @@
 /.env
 /.vscode
-/config/*
-/data/*
-/logs/*
-/www/**
+/logs/mysql/*
+!/logs/mysql/.gitkeep
+/logs/nginx/*
+!/logs/nginx/.gitkeep
+/data/mysql/*
+!/data/mysql/.gitkeep
+/www/*
+!/www/html
 .DS_Store

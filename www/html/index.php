@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>LAMP STACK</title>
+        <title>LNMP STACK</title>
         <link rel="stylesheet" href="/assets/css/bulma.min.css">
     </head>
     <body>
@@ -11,7 +11,7 @@
             <div class="hero-body">
                 <div class="container has-text-centered">
                     <h1 class="title">
-                        LAMP STACK
+                        LNMP STACK
                     </h1>
                     <h2 class="subtitle">
                         Your local development environment
@@ -27,13 +27,14 @@
                         <hr>
                         <div class="content">
                             <ul>
-                                <li><?= apache_get_version(); ?></li>
+                                <li>nginx</li>
                                 <li>PHP <?= phpversion(); ?></li>
+                                <li>Phalcon <?= \Phalcon\Version::get(); ?></li>
                                 <li>
                                     <?php
                                     $link = mysqli_connect("mysql", "root", "tiger", null);
 
-/* check connection */
+                                    /* check connection */
                                     if (mysqli_connect_errno()) {
                                         printf("MySQL connecttion failed: %s", mysqli_connect_error());
                                     } else {
@@ -53,7 +54,6 @@
                         <div class="content">
                             <ul>
                                 <li><a href="http://localhost/phpinfo.php">phpinfo()</a></li>
-                                <li><a href="http://localhost:8080">phpMyAdmin</a></li>
                                 <li><a href="http://localhost/test_db.php">Test DB Connection</a></li>
                             </ul>
                         </div>
