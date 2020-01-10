@@ -4,7 +4,7 @@ RUN apt-get -y update --fix-missing
 RUN apt-get upgrade -y
 
 # Install important libraries
-RUN apt-get -y install --fix-missing build-essential git curl zip \
+RUN apt-get -y install --fix-missing build-essential wget git curl zip \
     zlib1g-dev libicu-dev libfreetype6-dev libjpeg62-turbo-dev libpng-dev
 
 # Composer
@@ -25,13 +25,13 @@ RUN pecl install xdebug-2.9.0 \
     && docker-php-ext-install -j$(nproc) gd
 
 #Phalcon
-WORKDIR /usr/local/src
-RUN git clone https://github.com/phalcon/cphalcon.git --branch v3.4.0 --single-branch
-WORKDIR /usr/local/src/cphalcon/build
-RUN ./install
-
-WORKDIR /usr/local/etc/php/conf.d
-RUN docker-php-ext-enable phalcon
+RUN wget --content-disposition --output-document /tmp/phalcon.deb https://packagecloud.io/phalcon/stable/packages/debian/stretch/php7.2-phalcon_3.4.0-1+php7.2_amd64.deb/download.deb \
+    && mkdir /tmp/pkg \
+    && dpkg-deb -R /tmp/phalcon.deb /tmp/pkg \
+    && cp /tmp/pkg/usr/lib/php/*/phalcon.so "$(php-config  --extension-dir)/phalcon.so" \
+    && pecl install --force psr 1> /dev/null \
+    && echo "extension=psr.so" > "/usr/local/etc/php/conf.d/docker-php-ext-psr.ini" \
+    && echo "extension=phalcon.so" > "/usr/local/etc/php/conf.d/docker-php-ext-phalcon.ini"
 
 WORKDIR /var/www
 
