@@ -18,6 +18,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # PHP Extensions
 RUN pecl install xdebug-2.9.0
 RUN docker-php-ext-enable xdebug
+RUN docker-php-ext-enable opcache
 RUN docker-php-ext-install pdo_mysql
 RUN docker-php-ext-install pdo_sqlite
 RUN docker-php-ext-install mysqli
