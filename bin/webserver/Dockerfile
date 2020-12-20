@@ -29,8 +29,13 @@ RUN docker-php-ext-install -j$(nproc) intl
 
 # GD
 RUN docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/
-
 RUN docker-php-ext-install gd
+
+#ModPageSpeed
+RUN apt-get update \
+    && DEBIAN_FRONTEND=noninteractive apt-get install -y apache2 wget \
+    && wget https://dl-ssl.google.com/dl/linux/direct/mod-pagespeed-stable_current_amd64.deb -O /tmp/modpagespeed.deb \
+    && dpkg -i /tmp/modpagespeed.deb
 
 #Phalcon
     RUN wget --content-disposition --output-document /tmp/phalcon.deb https://packagecloud.io/phalcon/stable/packages/debian/stretch/php7.4-phalcon_4.0.0-861+php7.4_amd64.deb/download.deb \
