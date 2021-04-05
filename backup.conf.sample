@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# доступы к ftp серверу
+declare -A ftp=([host]="ftp-host" [user]="ftp-user" [pass]="ftp-password")
+
+# папки, которые надо архивировать
+# пути пишутся относительно текущего файла, без кавычек, разделяются пробелом
+include_dirs=(data www/*)
+
+# папки внутри include_dirs, которые надо исключить из архива, без кавычек, разделяются пробелом
+exclude_dirs=(bitrix *node_modules* *tar.gz*)
